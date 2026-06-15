@@ -12,16 +12,26 @@ detects your local model on first use.
 
 ```
 swap/
-├── EVAL.md         # the testing-infra design (SAFE/RISKY/UNSAFE per intent×model)
-└── skill/          # the installable skill (this is the product)
-    ├── SKILL.md    # teaches the agent the `swap <intent>` reflex + self-bootstrap
-    └── swap.py     # the router — Python stdlib only, runs on any machine Python
+├── EVAL.md             # the testing-infra design (SAFE/RISKY/UNSAFE per intent×model)
+└── skills/swap/        # the installable skill (this is the product)
+    ├── SKILL.md        # teaches the agent the `swap <intent>` reflex + self-bootstrap
+    └── swap.py         # the router — Python stdlib only, runs on any machine Python
 ```
 
-## Install (Claude Code)
+## Install
+
+**Any agent (recommended)** — via the [skills.sh](https://skills.sh) registry,
+which translates the one skill into 70+ agents (Claude Code, Cursor, Codex,
+Gemini CLI, Copilot, Zed, …):
 
 ```bash
-cp -r skill ~/.claude/skills/swap
+npx skills add avi-ox-agola/swap
+```
+
+**Claude Code, manually:**
+
+```bash
+cp -r skills/swap ~/.claude/skills/swap
 ```
 
 Then just use your agent. The first time it hits a delegate-worthy sub-task it runs
@@ -29,9 +39,6 @@ the bundled bootstrap (`swap.py doctor --ensure`), which detects your local Olla
 writes `~/.swap/config.json`, and installs a stable entrypoint at `~/.swap/bin/swap`.
 The only manual step you'd ever take is if you have **no** local model — the agent
 will offer to run `ollama pull qwen3:8b` for you.
-
-Other harnesses (Cursor, Cline, Aider): point the harness's rules/conventions file
-at `~/.swap/bin/swap` after the first bootstrap. Same router underneath.
 
 ## Use it directly (CLI)
 
