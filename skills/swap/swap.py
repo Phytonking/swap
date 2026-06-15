@@ -101,6 +101,38 @@ def save_config(cfg):
     os.makedirs(HOME, exist_ok=True)
     with open(CONFIG_PATH, "w") as f:
         json.dump(cfg, f, indent=2)
+    # config may hold raw API keys -> keep it private (like ~/.aws/credentials).
+    try:
+        os.chmod(HOME, 0o700)
+        os.chmod(CONFIG_PATH, 0o600)
+    except OSError:
+        pass
+
+
+def backend_key_missing(cfg, backend_name):
+    """True if this backend needs a key (openai-kind) and none resolves yet."""
+    b = cfg.get("backends", {}).get(backend_name, {})
+    if b.get("kind") != "openai":
+        return False
+    return not _resolve_env(b.get("api_key", ""))
+
+
+def needs_key_signal(backend_name, key_env=None):
+    """Structured, machine-readable line the agent acts on: ask the user for a
+    key for THIS backend, then store it. Printed to stderr; never the key."""
+    env = key_env
+    if not env and backend_name in CLOUD_PRESETS:
+        env = CLOUD_PRESETS[backend_name][1]
+    msg = {
+        "status": "NEEDS_KEY",
+        "backend": backend_name,
+        "env": env,
+        "prompt": (f"swap needs an API key for '{backend_name}'. Ask the user for "
+                   f"their {backend_name} API key, then have them run:  "
+                   f"swap set-key {backend_name}   (paste key when prompted). "
+                   f"Do not ask the user to paste the key into the chat."),
+    }
+    print("NEED_KEY: " + json.dumps(msg), file=sys.stderr)
 
 
 # ---------------------------------------------------------------- http
@@ -497,6 +529,49 @@ def cmd_add_backend(args):
 
     save_config(cfg)
     print("\n".join(lines), file=sys.stderr)
+    # If the key can't be resolved yet, tell the agent to collect it.
+    if not _resolve_env(f"env({key_env})"):
+        needs_key_signal(name, key_env)
+        print("STATUS: NEEDS_KEY")
+        return 5
+    print("STATUS: OK")
+    return 0
+
+
+# ---------------------------------------------------------------- set-key
+
+def cmd_set_key(args):
+    """Store an API key for a backend so swap uses it automatically from now on.
+    Key comes from stdin (piped) or a hidden prompt — never from argv, never
+    echoed, never traced."""
+    cfg = load_config() or default_config()
+    name = args.backend
+    cfg.setdefault("backends", {})
+    if name not in cfg["backends"]:
+        if name in CLOUD_PRESETS:
+            url, _ = CLOUD_PRESETS[name]
+            cfg["backends"][name] = {"kind": "openai", "base_url": url, "api_key": ""}
+        else:
+            print(json.dumps({"error": f"no backend '{name}'. Run "
+                              f"`swap add-backend {name} --model <model>` first, "
+                              f"or use a preset: {list(CLOUD_PRESETS)}"}),
+                  file=sys.stderr)
+            return 2
+
+    if sys.stdin.isatty():
+        import getpass
+        key = getpass.getpass(f"Paste API key for '{name}' (hidden): ").strip()
+    else:
+        key = sys.stdin.read().strip()
+    if not key:
+        print(json.dumps({"error": "no key provided on stdin"}), file=sys.stderr)
+        return 2
+
+    cfg["backends"][name]["api_key"] = key   # stored literal; file chmod 600
+    save_config(cfg)
+    masked = key[:3] + "…" + key[-2:] if len(key) > 6 else "…"
+    print(f"Stored key for '{name}' ({masked}) in {CONFIG_PATH} (mode 600). "
+          f"swap will use it automatically.", file=sys.stderr)
     print("STATUS: OK")
     return 0
 
@@ -556,6 +631,15 @@ def cmd_run(args):
         print(json.dumps({"error": str(e)}), file=sys.stderr)
         return 1
 
+    # If this route is a cloud backend whose key isn't set, ask for it (don't fail).
+    backend_name = model_ref.partition("/")[0]
+    if backend_key_missing(cfg, backend_name):
+        key_env = (cfg["backends"][backend_name].get("api_key", "") or "")
+        m = re.match(r"env\((\w+)\)", key_env)
+        needs_key_signal(backend_name, m.group(1) if m else None)
+        print("STATUS: NEEDS_KEY", file=sys.stderr)
+        return 5
+
     # Fit the context to the model's window so a 2000-line log can't blow it.
     budget_chars = (model_ctx_tokens(cfg, model_ref) - CTX_RESERVE_TOK) * 4
     stdin_data, clipped = clip_to_budget(stdin_data, budget_chars)
@@ -612,6 +696,9 @@ def main():
     pa.add_argument("--base-url", help="override (required for non-preset names)")
     pa.add_argument("--key-env", help="env var holding the API key")
 
+    pk = sub.add_parser("set-key")
+    pk.add_argument("backend", help="backend name to store a key for (e.g. gemini)")
+
     # intents + raw all flow through the run handler
     for name in list(INTENTS.keys()) + ["raw"]:
         pi = sub.add_parser(name)
@@ -626,6 +713,8 @@ def main():
         sys.exit(cmd_doctor(args))
     if args.cmd == "add-backend":
         sys.exit(cmd_add_backend(args))
+    if args.cmd == "set-key":
+        sys.exit(cmd_set_key(args))
     if args.cmd == "report":
         sys.exit(cmd_report(args))
     if args.cmd in INTENTS or args.cmd == "raw":

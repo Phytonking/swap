@@ -42,6 +42,26 @@ After bootstrap, always call the stable entrypoint:
 python3 ~/.swap/bin/swap <intent> "<instruction>" < <file-or-piped-content>
 ```
 
+## Adding a cloud model (when local isn't enough)
+
+Use a cloud model when there's no local model, the local one is too weak for an
+intent, or you need a stronger/judgment-capable model. Any `swap` call that
+needs a key it doesn't have prints **`STATUS: NEEDS_KEY`** (exit 5) plus a
+`NEED_KEY: {…}` JSON line naming the `backend` and `env` var. When you see it:
+
+1. Register the backend (once): `swap add-backend <name> --model <model>`
+   — presets: `gemini, openai, openrouter, groq, deepinfra, together, fireworks, mistral`.
+2. **Ask the user for their API key for that specific model** — then tell them to run:
+   ```bash
+   swap set-key <name>      # prompts and reads the key hidden; pasted on stdin
+   ```
+   **Never ask the user to paste the key into the chat, and never put a key in a
+   command argument or env you echo.** `set-key` stores it in `~/.swap/config.json`
+   (mode 600, never in any repo) and swap uses it automatically from then on.
+3. Retry the original `swap` call — it now routes to the cloud model.
+
+Until the key is set, do the sub-task yourself; never invent or guess a key.
+
 ## When to delegate (and which intent)
 
 | Situation | Call |
