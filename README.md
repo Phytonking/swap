@@ -66,6 +66,18 @@ One rule file — the [`AGENTS.md`](AGENTS.md) open standard — drives them all
 
 The agent only needs to run shell commands and read a rule file.
 
+## Slash commands (Claude Code)
+
+Installed as a plugin, swap adds user-invoked commands:
+
+| Command | Does |
+|---|---|
+| `/swap:report` | show how much you've saved routing to cheap models |
+| `/swap:doctor` | detect/configure backends and show readiness |
+| `/swap:add-model gemini gemini-2.5-flash` | add a cloud model + store its key |
+
+The model-invoked skill works in every harness; these are a Claude Code convenience.
+
 ## Backends
 
 **Local (default, free, private):** Ollama at `localhost:11434`. `doctor`
@@ -122,6 +134,7 @@ swap <intent> "<instruction>"  <stdin>
 skills/swap/swap.py   the router (CLI + skill) — stdlib only
 skills/swap/SKILL.md  Claude Code skill (self-bootstrapping)
 AGENTS.md CLAUDE.md GEMINI.md   per-harness rule files
+.claude-plugin/ commands/       Claude Code plugin + slash commands
 eval/                 SAFE/RISKY/UNSAFE verdict harness + corpus
 tests/                stdlib unittest smoke tests (CI)
 install.sh INSTALL.md

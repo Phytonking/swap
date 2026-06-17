@@ -1,0 +1,9 @@
+{
+  "name": "swap",
+  "description": "Delegate mechanical agent sub-tasks (summarize, extract, classify, code) to cheap local or cloud models to save frontier tokens.",
+  "version": "0.1.0",
+  "author": { "name": "Phytonking" },
+  "homepage": "https://github.com/Phytonking/swap",
+  "repository": "https://github.com/Phytonking/swap",
+  "license": "MIT"
+}
