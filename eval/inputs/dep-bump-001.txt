@@ -1,0 +1,14 @@
+Pull request: Bump eslint-plugin-imports from 3.9.2 to 4.0.0 (dependabot)
+
+Changelog excerpt for 4.0.0:
+## 4.0.0
+- BREAKING: rule `order` renamed to `import-order`; the old name is removed
+- BREAKING: requires eslint >= 10.0
+- Dropped support for Node 18
+- New: autofix for `import-order`
+
+Repository facts (from CI config and lockfile):
+- .eslintrc.json enables rule "imports/order" with custom groups
+- package.json pins eslint 9.4.1
+- CI matrix runs on node 18.20 and node 20.12
+- lint is a required check on main

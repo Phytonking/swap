@@ -1,0 +1,25 @@
+$ npm run build
+
+> swap-demo@0.4.1 build
+> tsc --noEmit && webpack --mode production
+
+src/handler.ts:42:18 - error TS2532: Object is possibly 'undefined'.
+
+42   const name = user.profile.name;
+                      ~~~~~~~
+
+src/store.ts:7:3 - error TS2304: Cannot find name 'createStore'.
+
+7   createStore(rootReducer);
+    ~~~~~~~~~~~
+
+Found 2 errors in 2 files.
+
+Errors  Files
+     1  src/handler.ts:42
+     1  src/store.ts:7
+
+npm ERR! Lifecycle script `build` failed with error:
+npm ERR! errno 2
+npm ERR! code ELIFECYCLE
+npm ERR! A complete log of this run can be found in: /Users/dev/.npm/_logs/2026-06-11T22_14_03_188Z-debug-0.log

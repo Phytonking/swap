@@ -1,0 +1,18 @@
+{
+  "id": "type-hints-003",
+  "intent": "code",
+  "level": "mechanical",
+  "instruction": "Add Python type hints to this function: all parameters and the return value are int. Output only the full updated function.",
+  "input": "inputs/clamp-001.py",
+  "gold": {
+    "type": "checks",
+    "value": {
+      "regex_all": [
+        "value:\\s*int",
+        "lo:\\s*int",
+        "hi:\\s*int",
+        "->\\s*int"
+      ]
+    }
+  }
+}

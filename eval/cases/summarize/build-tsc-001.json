@@ -1,0 +1,18 @@
+{
+  "id": "build-tsc-001",
+  "intent": "summarize",
+  "level": "mechanical",
+  "instruction": "Summarize this build log: name each failing file and its TS error code, one line each.",
+  "input": "inputs/tsc-build-001.txt",
+  "gold": {
+    "type": "checks",
+    "value": {
+      "contains_all": [
+        "handler.ts",
+        "store.ts",
+        "TS2532",
+        "TS2304"
+      ]
+    }
+  }
+}

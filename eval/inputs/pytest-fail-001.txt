@@ -1,0 +1,34 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.4, pytest-8.2.0, pluggy-1.5.0
+rootdir: /Users/dev/checkout
+configfile: pyproject.toml
+plugins: anyio-4.4.0, cov-5.0.0
+collected 48 items
+
+tests/test_auth.py ............                                          [ 25%]
+tests/billing/test_billing.py ....F.......                               [ 50%]
+tests/search/test_search.py .................F                           [ 87%]
+tests/test_utils.py ......                                               [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_invoice_rounds_to_cents ________________________
+
+    def test_invoice_rounds_to_cents():
+        invoice = build_invoice(items=[item(3.366), item(6.733)])
+>       assert invoice.total == Decimal("10.10")
+E       AssertionError: assert Decimal('10.099') == Decimal('10.10')
+
+tests/billing/test_billing.py:88: AssertionError
+________________________ test_search_handles_unicode ________________________
+
+    def test_search_handles_unicode():
+        index(["café au lait", "espresso"])
+        results = search("café")
+>       assert "café au lait" in results
+E       AssertionError: assert 'café au lait' in []
+
+tests/search/test_search.py:204: AssertionError
+=========================== short test summary info ============================
+FAILED tests/billing/test_billing.py::test_invoice_rounds_to_cents - AssertionError
+FAILED tests/search/test_search.py::test_search_handles_unicode - AssertionError
+========================= 2 failed, 46 passed in 12.41s ========================

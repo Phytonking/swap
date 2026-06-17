@@ -1,0 +1,22 @@
+{
+  "id": "tsc-errors-001",
+  "intent": "extract",
+  "level": "mechanical",
+  "instruction": "Extract every TypeScript compile error as a JSON array of objects with keys \"file\", \"line\" (number), and \"code\" (the TS error code, e.g. \"TS1234\").",
+  "input": "inputs/tsc-build-001.txt",
+  "gold": {
+    "type": "json_subset",
+    "value": [
+      {
+        "file": "src/handler.ts",
+        "line": 42,
+        "code": "TS2532"
+      },
+      {
+        "file": "src/store.ts",
+        "line": 7,
+        "code": "TS2304"
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+Three open failures on main:
+
+[FAIL-231] lint: unused import in tools/gen_docs.py
+  introduced 2 days ago by d11f3c2; blocks nothing downstream
+
+[FAIL-232] tests/integration/test_login.py::test_expired_token_rejected
+  expired session tokens are ACCEPTED since c91f2aa — auth/token.py verify()
+  returns True when token expiry is within clock-skew tolerance, but the
+  tolerance is applied with the wrong sign, so ALL expired tokens pass
+
+[FAIL-233] tests/unit/test_fmt.py::test_currency_rounding
+  flaky, fails ~3% of runs, tracked since March (issue #1102), retry passes

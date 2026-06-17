@@ -1,0 +1,23 @@
+[ci] job=unit-tests run=4977 attempt=1
+[ci] node=runner-3 zone=us-west-2 image=ci-base:2026.05
+[ci] checkout c84d201 (feature/discount-tiers)
+[ci] pytest tests/unit -q
+
+tests/unit/test_pricing.py::test_discount_cap FAILED
+
+    def test_discount_cap():
+        order = build_order(subtotal=200, coupon="SPRING35")
+>       assert order.discount_rate == 0.30
+E       AssertionError: assert 0.35 == 0.30
+E        discount_rate 0.35 exceeded the configured cap of 0.30
+
+[ci] attempt 1 exit=1 — auto-retrying (policy: retry-on-failure x1)
+[ci] job=unit-tests run=4977 attempt=2
+[ci] pytest tests/unit -q
+
+tests/unit/test_pricing.py::test_discount_cap FAILED
+
+>       assert order.discount_rate == 0.30
+E       AssertionError: assert 0.35 == 0.30
+
+[ci] attempt 2 exit=1 — job red (same assertion both attempts)

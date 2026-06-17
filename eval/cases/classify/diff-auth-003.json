@@ -1,0 +1,11 @@
+{
+  "id": "diff-auth-003",
+  "intent": "classify",
+  "level": "judgment",
+  "instruction": "Does this diff change authentication or authorization behavior? Answer with label \"yes\" or \"no\".",
+  "input": "inputs/diff-auth-001.txt",
+  "gold": {
+    "type": "label",
+    "value": "yes"
+  }
+}

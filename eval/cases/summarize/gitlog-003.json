@@ -1,0 +1,16 @@
+{
+  "id": "gitlog-003",
+  "intent": "summarize",
+  "level": "mechanical",
+  "instruction": "Summarize the main themes of this commit history in at most 4 bullets. Explicitly mention any revert.",
+  "input": "inputs/gitlog-001.txt",
+  "gold": {
+    "type": "checks",
+    "value": {
+      "contains_all": [
+        "auth",
+        "revert"
+      ]
+    }
+  }
+}

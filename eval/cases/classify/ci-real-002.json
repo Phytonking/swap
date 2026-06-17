@@ -1,0 +1,11 @@
+{
+  "id": "ci-real-002",
+  "intent": "classify",
+  "level": "judgment",
+  "instruction": "Did this CI job fail because of a flaky/infrastructure issue or a real code bug? Answer with label \"flaky\" or \"real\".",
+  "input": "inputs/ci-real-001.txt",
+  "gold": {
+    "type": "label",
+    "value": "real"
+  }
+}

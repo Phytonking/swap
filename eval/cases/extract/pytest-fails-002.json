@@ -1,0 +1,20 @@
+{
+  "id": "pytest-fails-002",
+  "intent": "extract",
+  "level": "mechanical",
+  "instruction": "Extract the failed tests as a JSON array of objects with keys \"test\" (the test function name only, no file path) and \"file\" (the test file path). Only include failures, not passes.",
+  "input": "inputs/pytest-fail-001.txt",
+  "gold": {
+    "type": "json_f1",
+    "value": [
+      {
+        "test": "test_invoice_rounds_to_cents",
+        "file": "tests/billing/test_billing.py"
+      },
+      {
+        "test": "test_search_handles_unicode",
+        "file": "tests/search/test_search.py"
+      }
+    ]
+  }
+}

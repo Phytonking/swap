@@ -1,0 +1,13 @@
+{
+  "id": "triage-priority-004",
+  "intent": "summarize",
+  "level": "judgment",
+  "instruction": "Which failure ID should be fixed first? Start your answer with that failure ID, then give a one-sentence reason.",
+  "input": "inputs/triage-board-001.txt",
+  "gold": {
+    "type": "checks",
+    "value": {
+      "regex_all": ["\\A[^\\n]{0,80}FAIL-232"]
+    }
+  }
+}

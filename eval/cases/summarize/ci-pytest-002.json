@@ -1,0 +1,16 @@
+{
+  "id": "ci-pytest-002",
+  "intent": "summarize",
+  "level": "mechanical",
+  "instruction": "Summarize this test run: which tests failed and why, one line per failure.",
+  "input": "inputs/pytest-fail-001.txt",
+  "gold": {
+    "type": "checks",
+    "value": {
+      "contains_all": [
+        "test_invoice_rounds_to_cents",
+        "test_search_handles_unicode"
+      ]
+    }
+  }
+}

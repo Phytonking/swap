@@ -1,0 +1,16 @@
+{
+  "id": "gitignore-001",
+  "intent": "code",
+  "level": "mechanical",
+  "instruction": "Write .gitignore lines that ignore all .log files anywhere in the tree and the dist/ directory at the repo root. Output only the .gitignore lines.",
+  "input": null,
+  "gold": {
+    "type": "checks",
+    "value": {
+      "contains_all": [
+        "*.log",
+        "dist/"
+      ]
+    }
+  }
+}

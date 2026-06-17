@@ -1,0 +1,28 @@
+{
+  "id": "grep-todos-003",
+  "intent": "extract",
+  "level": "mechanical",
+  "instruction": "This is grep output (file:line:text). Extract every TODO as a JSON array of objects with keys \"file\" and \"line\" (number).",
+  "input": "inputs/grep-todos-001.txt",
+  "gold": {
+    "type": "json_subset",
+    "value": [
+      {
+        "file": "src/api/client.py",
+        "line": 114
+      },
+      {
+        "file": "src/api/client.py",
+        "line": 268
+      },
+      {
+        "file": "src/cli/main.py",
+        "line": 52
+      },
+      {
+        "file": "src/cli/main.py",
+        "line": 209
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+9f31aab auth: add webhook signature verification
+c84d201 pricing: introduce tiered discounts behind flag
+77ab2e0 auth: rotate session signing keys on deploy
+51d9c4b Revert "auth: cache session lookups in redis"
+b2207f1 auth: cache session lookups in redis
+e90c113 search: normalize unicode before indexing
+4cf80aa pricing: clamp discount rate to configured cap
+0d3b9e2 auth: migrate password hashing to argon2id
+8a1f6d7 ci: bump runners to ci-base:2026.05
+3e4c5b9 search: fix pagination off-by-one on last page
+6f7a8d1 docs: document webhook retry policy
+2b9c0e4 auth: add audit log line on forbidden responses

@@ -1,0 +1,20 @@
+[ci] job=integration-tests run=4812 attempt=1
+[ci] node=runner-7 zone=us-west-2 image=ci-base:2026.05
+[ci] checkout 9f31aab (feature/webhook-retries)
+[ci] pytest tests/integration -x -q
+
+tests/integration/test_webhook.py::test_delivery_timeout FAILED
+
+E   requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='hooks.staging.example', port=443):
+E   Max retries exceeded with url: /v1/ping (Caused by ConnectTimeoutError(
+E   <urllib3.connection.HTTPSConnection object at 0x104f3e9d0>,
+E   'Connection to hooks.staging.example timed out. (connect timeout=5)'))
+
+[ci] attempt 1 exit=1 — auto-retrying (policy: retry-on-failure x1)
+[ci] job=integration-tests run=4812 attempt=2
+[ci] pytest tests/integration -x -q
+
+tests/integration/test_webhook.py::test_delivery_timeout PASSED
+
+[ci] attempt 2 exit=0 — job green
+[ci] note: hooks.staging.example reported elevated latency 14:02-14:09 UTC (status page incident #2291)

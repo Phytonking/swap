@@ -1,0 +1,4 @@
+src/api/client.py:114:    # TODO: retry with backoff on 429 responses
+src/api/client.py:268:    # TODO(dev): drop the legacy v1 fallback after 2026-09
+src/cli/main.py:52:    # TODO: support --json output for scripting
+src/cli/main.py:209:    # TODO: exit nonzero when the config file is missing

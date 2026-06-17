@@ -1,0 +1,19 @@
+{
+  "id": "null-guard-002",
+  "intent": "code",
+  "level": "mechanical",
+  "instruction": "Update this Python function so that when user is None it returns the string \"anonymous\" instead of raising. Output only the full updated function.",
+  "input": "inputs/handler-user-001.py",
+  "gold": {
+    "type": "checks",
+    "value": {
+      "contains_all": [
+        "anonymous",
+        "def display_name"
+      ],
+      "regex_all": [
+        "if\\s+(user\\s+is\\s+None|not\\s+user)"
+      ]
+    }
+  }
+}
