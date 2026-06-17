@@ -76,6 +76,13 @@ Installed as a plugin, swap adds user-invoked commands:
 | `/swap:doctor` | detect/configure backends and show readiness |
 | `/swap:add-model gemini gemini-2.5-flash` | add a cloud model + store its key |
 
+Install the plugin to get them:
+
+```
+/plugin marketplace add Phytonking/swap
+/plugin install swap@swap
+```
+
 The model-invoked skill works in every harness; these are a Claude Code convenience.
 
 ## Backends

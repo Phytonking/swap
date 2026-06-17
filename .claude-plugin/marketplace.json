@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "swap",
+  "description": "Route mechanical agent sub-tasks to cheap local or cloud models to save frontier tokens.",
+  "owner": {
+    "name": "Phytonking",
+    "url": "https://github.com/Phytonking"
+  },
+  "plugins": [
+    {
+      "name": "swap",
+      "description": "Delegate summarize/extract/classify/code sub-tasks to cheap local or cloud models. Self-bootstrapping; works across Claude Code, Codex, opencode, and more.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
